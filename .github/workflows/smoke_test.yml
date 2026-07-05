@@ -1,0 +1,11 @@
+name : Smooke Test For Infrastructure Network 
+on:
+  workflow_dispatch
+
+jobs:
+  working-job:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name : Echo Message
+        run : echo "Smoke Test is working successfully ✅"
