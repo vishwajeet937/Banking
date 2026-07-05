@@ -1,7 +1,13 @@
+<<<<<<< HEAD:.github/workflows/test_fleet_health.yml
 name: Test Fleet health and Env Variables
+=======
+name : Test Workflow
+>>>>>>> b6d376aa6c95d3e80cdb844aeec7c1f7e79f16e5:.github/workflows/test_fleet.yml
 
-on:
-  workflow_dispatch
+on: 
+  push:
+    branches:
+      - main
 
 permissions:
   id-token: write
@@ -20,11 +26,10 @@ jobs:
       - name: Print Private IPs
         run: |
           CMD_ID=$(aws ssm send-command \
-            --targets "key=tag:App,Values=flask" \
+            --targets "Key=tag:App,Values=flask" \
             --document-name "AWS-RunShellScript" \
             --parameters '{"commands":["hostname -I"]}' \
-            --query 'Commands.CommandId' \
-            --output text
+            --query 'Command.CommandId' --output text
           )
 
           sleep 30
