@@ -13,7 +13,7 @@ required=["DB_HOST","DB_NAME","DB_USER","DB_PASSWORD","DB_PORT"]
 missing=[k for k in required if k not in params]
 
 for k in required:
-    if k in params:
+    if k in params: 
         print(k , "✅")
     else:
         print(k , "❌")
