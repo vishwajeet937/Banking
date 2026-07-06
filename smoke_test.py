@@ -1,43 +1,47 @@
 import boto3 ,os,sys
 import pymysql
-client = boto3.client('ec2', region_name='us-east-1')
-params = {
-    os.path.basename(p["Name"]): p["Value"] 
+client=boto3.client("ssm",region_name="us-east-1")
+
+params={
+    os.path.basename(p["Name"],p["Value"])
     for p in client.get_parameters_by_path(
-        Path='/banking101/2-tier-deployment/',
-        Recursive=True,
-        WithDecryption=True
-    )['Parameters']
+        Path="/application/banking",
+        WithDecryption=True)["Parameters"]
 }
 
-required=["DB_HOST","DB_PORT","DB_USER","DB_PASSWORD","DB_NAME"]
-missing = [k for k in required if k not in params]
+required=["DB_HOST","DB_NAME","DB_USER","DB_PASSWORD","DB_PORT"]
+missing=[k for k in required if k not in params]
 
 for k in required:
-        print(f"{k} : {"✅" if k in params else '❌'}")
+    if k in params:
+        print(k , "✅")
+    else:
+        print(k , "❌")
 
 if missing:
-        print(f"Failed : {missing}")
-        sys.exit(1)
+    print(f"Failed : {missing}")
+    sys.exit(1)
+
 
 # DB FIND banking_db and show tables
 try:
-    connection = pymysql.connect(
+    connection=pymysql.connect(
         host=params["DB_HOST"],
-        port=int(params["DB_PORT"]),
         user=params["DB_USER"],
         password=params["DB_PASSWORD"],
-        connect_timeout=10,
+        port=int(params["DB_PORT"]),
+        connect_timeout=10
     )
+
     cur=connection.cursor()
     cur.execute("SHOW TABLES")
-    tables = [row[0] for row in cur.fetchall()]
+    tables=[row[0] for row in cur.fetchall()]
     connection.close()
-    print(f"{params['DB_NAME']}")
+    print(f"{params["DB_NAME"]}")
     print(f"Table : {tables}")
 
 except Exception as e:
-    print(f"DB ERROR ❌: ",e)
+    print("DB ERROR ❌: ",e)
     sys.exit(1)
 
-print("Smoke Test Done✅")
+print("✅ Smoke test Done")
