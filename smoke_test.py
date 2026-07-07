@@ -45,4 +45,4 @@ except Exception as e:
     print("DB ERROR ❌: ",e)
     sys.exit(1)
 
-print("✅ Smoke test Done")
+print("✅ Smoke test Done...")
