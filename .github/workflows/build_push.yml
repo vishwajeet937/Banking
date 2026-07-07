@@ -1,11 +1,13 @@
-name : Build and Push ECR to AWS 
+\name: Build and Push ECR to AWS
+
 on:
-  workflow_dispatch
+  workflow_call:
+  workflow_dispatch:
 
 jobs:
   working-job:
     runs-on: ubuntu-latest
 
     steps:
-      - name : Echo Message
-        run : echo "Build and Push ECR to AWS is working successfully ✅"
+      - name: Echo Message
+        run: echo "Build and Push ECR to AWS is working successfully ✅"
