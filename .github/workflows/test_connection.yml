@@ -1,12 +1,13 @@
-name : Test Connection For Pipelines
+name: Test Connection
 
 on:
-  workflow_dispatch
+  workflow_call:
+  workflow_dispatch:
 
 jobs:
-  working-job:
+  test:
     runs-on: ubuntu-latest
 
     steps:
-      - name : Echo Message
-        run : echo "Github Action is working successfully ✅"
+      - name: Test Connection
+        run: echo "Connection successful ✅"
